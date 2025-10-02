@@ -904,6 +904,7 @@ export class PlayerImpl implements Player {
         return this.nukeSpawn(targetTile);
       case UnitType.AtomBomb:
       case UnitType.HydrogenBomb:
+      case UnitType.HyperVeloceBomb:
         return this.nukeSpawn(targetTile);
       case UnitType.MIRVWarhead:
         return targetTile;
@@ -924,6 +925,7 @@ export class PlayerImpl implements Player {
       case UnitType.DefensePost:
       case UnitType.SAMLauncher:
       case UnitType.City:
+      case UnitType.Metropole:
       case UnitType.Factory:
       case UnitType.Construction:
         return this.landBasedStructureSpawn(targetTile, validTiles);

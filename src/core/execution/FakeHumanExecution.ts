@@ -325,6 +325,7 @@ export class FakeHumanExecution implements Execution {
 
     const structures = other.units(
       UnitType.City,
+      UnitType.Metropole,
       UnitType.DefensePost,
       UnitType.MissileSilo,
       UnitType.Port,
@@ -455,6 +456,7 @@ export class FakeHumanExecution implements Execution {
   private handleUnits() {
     return (
       this.maybeSpawnStructure(UnitType.City) ||
+      this.maybeSpawnStructure(UnitType.Metropole) ||
       this.maybeSpawnStructure(UnitType.Port) ||
       this.maybeSpawnWarship() ||
       this.maybeSpawnStructure(UnitType.Factory) ||
@@ -551,6 +553,7 @@ export class FakeHumanExecution implements Execution {
           return w;
         };
       case UnitType.City:
+      case UnitType.Metropole:
       case UnitType.Factory:
       case UnitType.MissileSilo:
         return (tile) => {

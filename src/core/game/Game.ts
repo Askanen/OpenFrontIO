@@ -165,11 +165,13 @@ export enum UnitType {
   Port = "Port",
   AtomBomb = "Atom Bomb",
   HydrogenBomb = "Hydrogen Bomb",
+  HyperVeloceBomb = "HyperVeloce Bomb",
   TradeShip = "Trade Ship",
   MissileSilo = "Missile Silo",
   DefensePost = "Defense Post",
   SAMLauncher = "SAM Launcher",
   City = "City",
+  Metropole = "Metropole",
   MIRV = "MIRV",
   MIRVWarhead = "MIRV Warhead",
   Construction = "Construction",
@@ -184,6 +186,7 @@ export enum TrainType {
 
 const _structureTypes: ReadonlySet<UnitType> = new Set([
   UnitType.City,
+  UnitType.Metropole,
   UnitType.Construction,
   UnitType.DefensePost,
   UnitType.SAMLauncher,
@@ -229,6 +232,11 @@ export interface UnitParamsMap {
     trajectory: TrajectoryTile[];
   };
 
+  [UnitType.HyperVeloceBomb]: {
+    targetTile?: number;
+    trajectory: TrajectoryTile[];
+  };
+
   [UnitType.TradeShip]: {
     targetUnit: Unit;
     lastSetSafeFromPirates?: number;
@@ -250,6 +258,8 @@ export interface UnitParamsMap {
 
   [UnitType.City]: Record<string, never>;
 
+  [UnitType.Metropole]: Record<string, never>;
+
   [UnitType.MIRV]: Record<string, never>;
 
   [UnitType.MIRVWarhead]: {
@@ -267,6 +277,7 @@ export type AllUnitParams = UnitParamsMap[keyof UnitParamsMap];
 export const nukeTypes = [
   UnitType.AtomBomb,
   UnitType.HydrogenBomb,
+  UnitType.HyperVeloceBomb,
   UnitType.MIRVWarhead,
   UnitType.MIRV,
 ] as UnitType[];

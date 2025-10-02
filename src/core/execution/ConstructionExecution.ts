@@ -11,6 +11,8 @@ import { TileRef } from "../game/GameMap";
 import { CityExecution } from "./CityExecution";
 import { DefensePostExecution } from "./DefensePostExecution";
 import { FactoryExecution } from "./FactoryExecution";
+import { HyperVeloceNukeExecution } from "./HyperVeloceNuke";
+import { MetropoleExecution } from "./MetropoleExecution";
 import { MirvExecution } from "./MIRVExecution";
 import { MissileSiloExecution } from "./MissileSiloExecution";
 import { NukeExecution } from "./NukeExecution";
@@ -103,8 +105,15 @@ export class ConstructionExecution implements Execution {
     switch (this.constructionType) {
       case UnitType.AtomBomb:
       case UnitType.HydrogenBomb:
+      case UnitType.HyperVeloceBomb:
         this.mg.addExecution(
-          new NukeExecution(this.constructionType, player, this.tile),
+          this.constructionType === UnitType.HyperVeloceBomb
+            ? new HyperVeloceNukeExecution(
+                this.constructionType,
+                player,
+                this.tile,
+              )
+            : new NukeExecution(this.constructionType, player, this.tile),
         );
         break;
       case UnitType.MIRV:
@@ -129,6 +138,9 @@ export class ConstructionExecution implements Execution {
         break;
       case UnitType.City:
         this.mg.addExecution(new CityExecution(player, this.tile));
+        break;
+      case UnitType.Metropole:
+        this.mg.addExecution(new MetropoleExecution(player, this.tile));
         break;
       case UnitType.Factory:
         this.mg.addExecution(new FactoryExecution(player, this.tile));

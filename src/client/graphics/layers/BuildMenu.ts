@@ -67,6 +67,13 @@ export const buildTable: BuildItemDisplay[][] = [
       countable: false,
     },
     {
+      unitType: UnitType.HyperVeloceBomb,
+      icon: hydrogenBombIcon,
+      description: "build_menu.desc.hyper_veloce_bomb",
+      key: "unit_type.hyper_veloce_bomb",
+      countable: false,
+    },
+    {
       unitType: UnitType.Warship,
       icon: warshipIcon,
       description: "build_menu.desc.warship",
@@ -107,6 +114,13 @@ export const buildTable: BuildItemDisplay[][] = [
       icon: cityIcon,
       description: "build_menu.desc.city",
       key: "unit_type.city",
+      countable: true,
+    },
+    {
+      unitType: UnitType.Metropole,
+      icon: cityIcon,
+      description: "build_menu.desc.metropole",
+      key: "unit_type.metropole",
       countable: true,
     },
     {

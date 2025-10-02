@@ -146,6 +146,9 @@ export class FxLayer implements Layer {
       case UnitType.HydrogenBomb:
         this.onNukeEvent(unit, 160);
         break;
+      case UnitType.HyperVeloceBomb:
+        this.onNukeEvent(unit, 200);
+        break;
       case UnitType.Warship:
         this.onWarshipEvent(unit);
         break;

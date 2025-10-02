@@ -85,7 +85,7 @@ class SAMTargetingSystem {
     const nukes = this.mg.nearbyUnits(
       this.sam.tile(),
       detectionRange,
-      [UnitType.AtomBomb, UnitType.HydrogenBomb],
+      [UnitType.AtomBomb, UnitType.HydrogenBomb, UnitType.HyperVeloceBomb],
       ({ unit }) => {
         return (
           isUnit(unit) &&
@@ -142,6 +142,12 @@ class SAMTargetingSystem {
     return (
       targets.sort((a: Target, b: Target) => {
         // Prioritize Hydrogen Bombs
+        if (a.unit.type() === UnitType.HyperVeloceBomb) {
+          if (b.unit.type() !== UnitType.HyperVeloceBomb) return -1;
+        } else if (b.unit.type() === UnitType.HyperVeloceBomb) {
+          return 1;
+        }
+
         if (
           a.unit.type() === UnitType.HydrogenBomb &&
           b.unit.type() !== UnitType.HydrogenBomb

@@ -286,6 +286,10 @@ export class DefaultConfig implements Config {
     return 250_000;
   }
 
+  metropoleTroopIncrease(): number {
+    return 200_000;
+  }
+
   falloutDefenseModifier(falloutRatio: number): number {
     // falloutRatio is between 0 and 1
     // So defense modifier is between [5, 2.5]
@@ -462,6 +466,11 @@ export class DefaultConfig implements Config {
           cost: this.costWrapper(() => 5_000_000, UnitType.HydrogenBomb),
           territoryBound: false,
         };
+      case UnitType.HyperVeloceBomb:
+        return {
+          cost: this.costWrapper(() => 7_500_000, UnitType.HyperVeloceBomb),
+          territoryBound: false,
+        };
       case UnitType.MIRV:
         return {
           cost: this.costWrapper(() => 35_000_000, UnitType.MIRV),
@@ -510,6 +519,18 @@ export class DefaultConfig implements Config {
             (numUnits: number) =>
               Math.min(1_000_000, Math.pow(2, numUnits) * 125_000),
             UnitType.City,
+          ),
+          territoryBound: true,
+          constructionDuration: this.instantBuild() ? 0 : 2 * 10,
+          upgradable: true,
+          canBuildTrainStation: true,
+        };
+      case UnitType.Metropole:
+        return {
+          cost: this.costWrapper(
+            (numUnits: number) =>
+              Math.min(5_000_000, 2_000_000 + numUnits * 500_000),
+            UnitType.Metropole,
           ),
           territoryBound: true,
           constructionDuration: this.instantBuild() ? 0 : 2 * 10,
@@ -795,33 +816,44 @@ export class DefaultConfig implements Config {
   }
 
   maxTroops(player: Player | PlayerView): number {
-    const maxTroops =
+    const cityLevels = player
+      .units(UnitType.City)
+      .map((city) => city.level())
+      .reduce((a, b) => a + b, 0);
+    const metropoleLevels = player
+      .units(UnitType.Metropole)
+      .map((metropole) => metropole.level())
+      .reduce((a, b) => a + b, 0);
+
+    const structureBonus =
+      cityLevels * this.cityTroopIncrease() +
+      metropoleLevels * this.metropoleTroopIncrease();
+
+    const baseMaxTroops =
       player.type() === PlayerType.Human && this.infiniteTroops()
         ? 1_000_000_000
         : 2 * (Math.pow(player.numTilesOwned(), 0.6) * 1000 + 50000) +
-          player
-            .units(UnitType.City)
-            .map((city) => city.level())
-            .reduce((a, b) => a + b, 0) *
-            this.cityTroopIncrease();
+          structureBonus;
+
+    const roundTroops = (value: number): number => Math.round(value);
 
     if (player.type() === PlayerType.Bot) {
-      return maxTroops / 3;
+      return roundTroops(baseMaxTroops / 3);
     }
 
     if (player.type() === PlayerType.Human) {
-      return maxTroops;
+      return roundTroops(baseMaxTroops);
     }
 
     switch (this._gameConfig.difficulty) {
       case Difficulty.Easy:
-        return maxTroops * 0.5;
+        return roundTroops(baseMaxTroops * 0.5);
       case Difficulty.Medium:
-        return maxTroops * 1;
+        return roundTroops(baseMaxTroops * 1);
       case Difficulty.Hard:
-        return maxTroops * 1.5;
+        return roundTroops(baseMaxTroops * 1.5);
       case Difficulty.Impossible:
-        return maxTroops * 2;
+        return roundTroops(baseMaxTroops * 2);
     }
   }
 
@@ -872,6 +904,8 @@ export class DefaultConfig implements Config {
         return { inner: 12, outer: 30 };
       case UnitType.HydrogenBomb:
         return { inner: 80, outer: 100 };
+      case UnitType.HyperVeloceBomb:
+        return { inner: 90, outer: 110 };
     }
     throw new Error(`Unknown nuke type: ${unitType}`);
   }

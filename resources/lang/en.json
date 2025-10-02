@@ -267,6 +267,7 @@
   },
   "unit_type": {
     "city": "City",
+    "metropole": "Metropole",
     "defense_post": "Defense Post",
     "port": "Port",
     "warship": "Warship",
@@ -274,6 +275,7 @@
     "sam_launcher": "SAM Launcher",
     "atom_bomb": "Atom Bomb",
     "hydrogen_bomb": "Hydrogen Bomb",
+    "hyper_veloce_bomb": "Hyper-Veloce Bomb",
     "mirv": "MIRV",
     "factory": "Factory"
   },
@@ -455,6 +457,7 @@
     "desc": {
       "atom_bomb": "Small explosion",
       "hydrogen_bomb": "Large explosion",
+      "hyper_veloce_bomb": "Hypersonic impact with wide fallout",
       "mirv": "Huge explosion, only targets selected player",
       "missile_silo": "Used to launch nukes",
       "sam_launcher": "Defends against incoming nukes",
@@ -462,6 +465,7 @@
       "port": "Sends trade ships to generate gold",
       "defense_post": "Increases defenses of nearby borders",
       "city": "Increases max population",
+      "metropole": "Adds 200k max population",
       "factory": "Creates railroads and spawns trains"
     },
     "not_enough_money": "Not enough money"

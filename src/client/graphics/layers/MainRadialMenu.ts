@@ -135,7 +135,7 @@ export class MainRadialMenu extends LitElement implements Layer {
     if (screenX !== null && screenY !== null) {
       this.radialMenu.showRadialMenu(screenX, screenY);
     } else {
-      this.radialMenu.refresh();
+      this.radialMenu.refreshMenu();
     }
   }
 

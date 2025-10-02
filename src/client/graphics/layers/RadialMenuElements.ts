@@ -317,6 +317,7 @@ function getAllEnabledUnits(myPlayer: boolean, config: Config): Set<UnitType> {
 
   if (myPlayer) {
     addStructureIfEnabled(UnitType.City);
+    addStructureIfEnabled(UnitType.Metropole);
     addStructureIfEnabled(UnitType.DefensePost);
     addStructureIfEnabled(UnitType.Port);
     addStructureIfEnabled(UnitType.MissileSilo);
@@ -327,6 +328,7 @@ function getAllEnabledUnits(myPlayer: boolean, config: Config): Set<UnitType> {
     addStructureIfEnabled(UnitType.HydrogenBomb);
     addStructureIfEnabled(UnitType.MIRV);
     addStructureIfEnabled(UnitType.AtomBomb);
+    addStructureIfEnabled(UnitType.HyperVeloceBomb);
   }
 
   return Units;
@@ -336,6 +338,7 @@ const ATTACK_UNIT_TYPES: UnitType[] = [
   UnitType.AtomBomb,
   UnitType.MIRV,
   UnitType.HydrogenBomb,
+  UnitType.HyperVeloceBomb,
   UnitType.Warship,
 ];
 

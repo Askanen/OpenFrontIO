@@ -1,3 +1,4 @@
+import { ConstructionExecution } from "../src/core/execution/ConstructionExecution";
 import {
   Game,
   Player,
@@ -42,6 +43,57 @@ describe("PlayerImpl", () => {
       .find((bu) => bu.type === UnitType.City);
     expect(buCity).toBeDefined();
     expect(buCity!.canUpgrade).toBe(city.id());
+  });
+
+  test("Metropole increases max troops by 200k", () => {
+    const baselineMaxTroops = game.config().maxTroops(player);
+    player.addGold(5_000_000n);
+    player.buildUnit(UnitType.Metropole, game.ref(0, 0), {});
+    const updatedMaxTroops = game.config().maxTroops(player);
+    expect(updatedMaxTroops - baselineMaxTroops).toBe(200_000);
+  });
+
+  test("Metropole adds 200k on top of existing city bonus", () => {
+    player.addGold(5_000_000n);
+    player.conquer(game.ref(0, 0));
+    player.conquer(game.ref(0, 1));
+
+    const baseMaxTroops = game.config().maxTroops(player);
+
+    player.buildUnit(UnitType.City, game.ref(0, 0), {});
+    const afterCityMaxTroops = game.config().maxTroops(player);
+
+    player.buildUnit(UnitType.Metropole, game.ref(0, 1), {});
+    const afterMetropoleMaxTroops = game.config().maxTroops(player);
+
+    expect(afterCityMaxTroops - baseMaxTroops).toBeCloseTo(250_000, 5);
+    expect(afterMetropoleMaxTroops - afterCityMaxTroops).toBeCloseTo(
+      200_000,
+      5,
+    );
+  });
+
+  test("Metropole construction grants 200k max troops once completed", () => {
+    player.addGold(5_000_000n);
+    const buildTile = game.ref(5, 5);
+    player.conquer(buildTile);
+
+    const preConstructionMaxTroops = game.config().maxTroops(player);
+
+    game.addExecution(
+      new ConstructionExecution(player, UnitType.Metropole, buildTile),
+    );
+
+    for (let i = 0; i < 30; i++) {
+      game.executeNextTick();
+    }
+
+    const postConstructionMaxTroops = game.config().maxTroops(player);
+
+    expect(postConstructionMaxTroops - preConstructionMaxTroops).toBeCloseTo(
+      200_000,
+      5,
+    );
   });
 
   test("DefensePost cannot be upgraded", () => {

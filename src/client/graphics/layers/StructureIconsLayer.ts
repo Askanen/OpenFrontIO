@@ -37,6 +37,7 @@ class StructureRenderInfo {
 
 const STRUCTURE_SHAPES: Partial<Record<UnitType, ShapeType>> = {
   [UnitType.City]: "circle",
+  [UnitType.Metropole]: "circle",
   [UnitType.Port]: "pentagon",
   [UnitType.Factory]: "circle",
   [UnitType.DefensePost]: "octagon",
@@ -73,6 +74,7 @@ export class StructureIconsLayer implements Layer {
     { visible: boolean; iconPath: string; image: HTMLImageElement | null }
   > = new Map([
     [UnitType.City, { visible: true, iconPath: cityIcon, image: null }],
+    [UnitType.Metropole, { visible: true, iconPath: cityIcon, image: null }],
     [UnitType.Factory, { visible: true, iconPath: factoryIcon, image: null }],
     [
       UnitType.DefensePost,

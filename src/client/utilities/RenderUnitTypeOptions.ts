@@ -10,6 +10,7 @@ export interface UnitTypeRenderContext {
 
 const unitOptions: { type: UnitType; translationKey: string }[] = [
   { type: UnitType.City, translationKey: "unit_type.city" },
+  { type: UnitType.Metropole, translationKey: "unit_type.metropole" },
   { type: UnitType.DefensePost, translationKey: "unit_type.defense_post" },
   { type: UnitType.Port, translationKey: "unit_type.port" },
   { type: UnitType.Warship, translationKey: "unit_type.warship" },
@@ -17,6 +18,10 @@ const unitOptions: { type: UnitType; translationKey: string }[] = [
   { type: UnitType.SAMLauncher, translationKey: "unit_type.sam_launcher" },
   { type: UnitType.AtomBomb, translationKey: "unit_type.atom_bomb" },
   { type: UnitType.HydrogenBomb, translationKey: "unit_type.hydrogen_bomb" },
+  {
+    type: UnitType.HyperVeloceBomb,
+    translationKey: "unit_type.hyper_veloce_bomb",
+  },
   { type: UnitType.MIRV, translationKey: "unit_type.mirv" },
   { type: UnitType.Factory, translationKey: "unit_type.factory" },
 ];

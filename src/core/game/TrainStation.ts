@@ -66,6 +66,7 @@ export function createTrainStopHandlers(
 ): Partial<Record<UnitType, TrainStopHandler>> {
   return {
     [UnitType.City]: new CityStopHandler(),
+    [UnitType.Metropole]: new CityStopHandler(),
     [UnitType.Port]: new PortStopHandler(random),
     [UnitType.Factory]: new FactoryStopHandler(),
   };
@@ -215,6 +216,7 @@ export class Cluster {
     for (const station of this.stations) {
       if (
         (station.unit.type() === UnitType.City ||
+          station.unit.type() === UnitType.Metropole ||
           station.unit.type() === UnitType.Port) &&
         station.tradeAvailable(player)
       ) {

@@ -922,6 +922,10 @@ export class RadialMenu implements Layer {
 
   public setParams(params: MenuElementParams) {
     this.params = params;
+
+    if (this.isVisible) {
+      this.refresh();
+    }
   }
 
   private findMenuItem(id: string): MenuElement | undefined {
