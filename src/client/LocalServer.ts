@@ -216,14 +216,17 @@ export class LocalServer {
     const jsonString = JSON.stringify(result.data, replacer);
 
     compress(jsonString)
-      .then((compressedData) => {
+      .then((compressedBuffer) => {
+        const requestBody = new Blob([compressedBuffer], {
+          type: "application/json",
+        });
         return fetch(`/${workerPath}/api/archive_singleplayer_game`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "Content-Encoding": "gzip",
           },
-          body: compressedData,
+          body: requestBody,
           keepalive: true, // Ensures request completes even if page unloads
         });
       })
@@ -233,7 +236,7 @@ export class LocalServer {
   }
 }
 
-async function compress(data: string): Promise<Uint8Array> {
+async function compress(data: string): Promise<ArrayBuffer> {
   const stream = new CompressionStream("gzip");
   const writer = stream.writable.getWriter();
   const reader = stream.readable.getReader();
@@ -262,5 +265,5 @@ async function compress(data: string): Promise<Uint8Array> {
     offset += chunk.length;
   }
 
-  return compressedData;
+  return compressedData.buffer.slice(0);
 }
